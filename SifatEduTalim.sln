@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SifatEdu.Api", "SifatEdu.Api\SifatEdu.Api.csproj", "{C0DBE5BE-6493-4878-944E-A2A2D7FAF8FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SifatEdu.Data", "SifatEdu.Data\SifatEdu.Data.csproj", "{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C0DBE5BE-6493-4878-944E-A2A2D7FAF8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0DBE5BE-6493-4878-944E-A2A2D7FAF8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0DBE5BE-6493-4878-944E-A2A2D7FAF8FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
