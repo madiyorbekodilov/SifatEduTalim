@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SifatEdu.Api", "SifatEdu.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SifatEdu.Data", "SifatEdu.Data\SifatEdu.Data.csproj", "{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SifatEdu.Domain", "SifatEdu.Domain\SifatEdu.Domain.csproj", "{F0288F84-1503-4426-9EF2-DD65DBB4BE01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4EA4633-EA49-45DA-90EA-58D6E96FDD77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0288F84-1503-4426-9EF2-DD65DBB4BE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0288F84-1503-4426-9EF2-DD65DBB4BE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0288F84-1503-4426-9EF2-DD65DBB4BE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0288F84-1503-4426-9EF2-DD65DBB4BE01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
