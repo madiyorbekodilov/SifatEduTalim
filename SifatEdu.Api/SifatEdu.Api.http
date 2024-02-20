@@ -1,0 +1,6 @@
+@SifatEdu.Api_HostAddress = http://localhost:5299
+
+GET {{SifatEdu.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
