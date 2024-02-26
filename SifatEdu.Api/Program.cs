@@ -1,4 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using SifatEdu.Data.Contexts;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+// Database
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 
