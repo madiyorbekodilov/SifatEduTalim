@@ -1,4 +1,6 @@
-﻿namespace SifatEdu.Service.DTOs.Test;
+﻿using SifatEdu.Service.DTOs.Question;
+
+namespace SifatEdu.Service.DTOs.Test;
 
 public class TestResultDto
 {
@@ -7,4 +9,6 @@ public class TestResultDto
     public string Description { get; set; }
     public int CountQuestion { get; set; }
     public int QuizNumber { get; set; }
+
+    public QuestionResultDto Question { get; set; }
 }
