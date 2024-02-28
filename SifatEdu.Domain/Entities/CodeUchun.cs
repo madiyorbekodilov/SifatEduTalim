@@ -1,6 +1,8 @@
-﻿namespace SifatEdu.Domain.Entities;
+﻿using SifatEdu.Domain.Commons;
 
-public class CodeUchun
+namespace SifatEdu.Domain.Entities;
+
+public class CodeUchun : Auditable
 {
     public long QuestionId { get; set; }
     public Question Question { get; set; }
