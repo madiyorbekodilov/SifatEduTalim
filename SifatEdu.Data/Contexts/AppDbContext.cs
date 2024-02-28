@@ -13,4 +13,5 @@ public class AppDbContext : DbContext
     public DbSet<Answer> Answers { get; set; }
     public DbSet<Test> Tests { get; set; }
     public DbSet<Participate> Participations { get; set; }
+    public DbSet<CodeUchun> CodeUchuns { get; set; }
 }
