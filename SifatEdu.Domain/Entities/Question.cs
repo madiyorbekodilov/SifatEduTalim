@@ -12,4 +12,5 @@ public class Question : Auditable
 
     public ICollection<Answer> Answers { get; set; }
 
+    public ICollection<CodeUchun> Codes { get; set; }
 }
