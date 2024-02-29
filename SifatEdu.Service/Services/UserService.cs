@@ -1,64 +1,106 @@
 ﻿using AutoMapper;
-using SifatEdu.Data.IRepasitories;
-using SifatEdu.Domain.Configurations;
-using SifatEdu.Domain.Entities;
 using SifatEdu.Domain.Enums;
+using SifatEdu.Domain.Entities;
+using SifatEdu.Service.Helpers;
 using SifatEdu.Service.DTOs.User;
 using SifatEdu.Service.Exceptions;
-using SifatEdu.Service.Helpers;
+using SifatEdu.Service.Extentions;
+using SifatEdu.Data.IRepasitories;
 using SifatEdu.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using SifatEdu.Domain.Configurations;
 
 namespace SifatEdu.Service.Services;
 
 public class UserService : IUserService
 {
-    public Task<bool> CheckUserAsync(string emailOrUsername, string password)
+    private readonly IMapper mapper;
+    private readonly IRepasitory<User> userRepository;
+    public UserService(IRepasitory<User> userRepository, IMapper mapper)
     {
-        throw new NotImplementedException();
+        this.mapper = mapper;
+        this.userRepository = userRepository;
     }
 
-    public Task<UserResultDto> CreateAsync(UserCreationDto dto)
+    public async Task<UserResultDto> AddAsync(UserCreationDto dto)
     {
-        throw new NotImplementedException();
+        User existUser = await this.userRepository.SelectAsync(u => u.Phone.Equals(dto.Phone));
+        if (existUser is not null)
+            throw new AlreadyExistException($"This user is already exists with phone = {dto.Phone}");
+
+        var mappedUser = this.mapper.Map<User>(dto);
+        mappedUser.Password = PasswordHasher.Hash(mappedUser.Password);
+        await this.userRepository.CreateAsync(mappedUser);
+        await this.userRepository.SaveAsync();
+
+
+        var result = this.mapper.Map<UserResultDto>(mappedUser);
+        return result;
     }
 
-    public Task<bool> DeleteAsync(long id)
+    public async Task<UserResultDto> ModifyAsync(UserUpdateDto dto)
     {
-        throw new NotImplementedException();
+        User existUser = await this.userRepository.SelectAsync(u => u.Id.Equals(dto.Id))
+            ?? throw new NotFoundException($"This user is not found with ID = {dto.Id}");
+
+        this.mapper.Map(dto, existUser);
+        existUser.Password = PasswordHasher.Hash(dto.Password);
+        this.userRepository.Update(existUser);
+        await this.userRepository.SaveAsync();
+
+        var result = this.mapper.Map<UserResultDto>(existUser);
+        return result;
     }
 
-    public Task<IEnumerable<UserResultDto>> GetAllAsync()
+    public async Task<bool> RemoveAsync(long id)
     {
-        throw new NotImplementedException();
+        User existUser = await this.userRepository.SelectAsync(u => u.Id.Equals(id))
+            ?? throw new NotFoundException($"This user is not found with ID = {id}");
+
+        this.userRepository.Delete(existUser);
+        await this.userRepository.SaveAsync();
+        return true;
     }
 
-    public Task<UserResultDto> GetByEmailAsync(string email)
+    public async Task<UserResultDto> RetrieveByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        User existUser = await this.userRepository.SelectAsync(u => u.Id.Equals(id))
+            ?? throw new NotFoundException($"This user is not found with ID = {id}");
+
+        var result = this.mapper.Map<UserResultDto>(existUser);
+        return result;
     }
 
-    public Task<UserResultDto> GetByIdAsync(long id)
+    public async Task<IEnumerable<UserResultDto>> RetrieveAllAsync(PaginationParams @params, Filter filter, string search = null)
     {
-        throw new NotImplementedException();
+        var users = await this.userRepository.SelectAll()
+                            .ToPaginate(@params)
+                            .OrderBy(filter)
+                            .ToListAsync();
+                            
+
+        var result = users.Where(user => user.FirsName.Contains(search, StringComparison.OrdinalIgnoreCase));
+        var mappedUsers = this.mapper.Map<List<UserResultDto>>(result);
+        return mappedUsers;
     }
 
-    public Task<IEnumerable<UserResultDto>> GetByName(string name)
+    public async Task<IEnumerable<UserResultDto>> RetrieveAllAsync()
     {
-        throw new NotImplementedException();
+        var users = await this.userRepository.SelectAll()
+            .ToListAsync();
+        var result = this.mapper.Map<IEnumerable<UserResultDto>>(users);
+        return result;
     }
 
-    public Task<IEnumerable<UserResultDto>> GetByUsernameAsync(string username)
+    public async Task<UserResultDto> UpgradeRoleAsync(long id, UserRole role)
     {
-        throw new NotImplementedException();
-    }
+        User existUser = await this.userRepository.SelectAsync(u => u.Id.Equals(id))
+            ?? throw new NotFoundException($"This user is not found with ID = {id}");
 
-    public Task<UserResultDto> ModifyAsync(UserUpdateDto dto)
-    {
-        throw new NotImplementedException();
-    }
+        existUser.Role = role;
+        await this.userRepository.SaveAsync();
 
-    public Task<UserResultDto> ModifyPasswordAsync(long id, string oldPass, string newPass)
-    {
-        throw new NotImplementedException();
+        var result = this.mapper.Map<UserResultDto>(existUser);
+        return result;
     }
 }

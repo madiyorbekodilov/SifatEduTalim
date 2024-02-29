@@ -1,17 +1,16 @@
-﻿using SifatEdu.Service.DTOs.User;
+﻿using SifatEdu.Domain.Enums;
+using SifatEdu.Service.DTOs.User;
+using SifatEdu.Domain.Configurations;
 
 namespace SifatEdu.Service.Interfaces;
 
 public interface IUserService
 {
-    Task<bool> DeleteAsync(long id);
-    Task<UserResultDto> GetByIdAsync(long id);
-    Task<IEnumerable<UserResultDto>> GetAllAsync();
-    Task<UserResultDto> GetByEmailAsync(string email);
+    Task<UserResultDto> AddAsync(UserCreationDto dto);
     Task<UserResultDto> ModifyAsync(UserUpdateDto dto);
-    Task<UserResultDto> CreateAsync(UserCreationDto dto);
-    Task<IEnumerable<UserResultDto>> GetByName(string name);
-    Task<bool> CheckUserAsync(string emailOrUsername, string password);
-    Task<IEnumerable<UserResultDto>> GetByUsernameAsync(string username);
-    Task<UserResultDto> ModifyPasswordAsync(long id, string oldPass, string newPass);
+    Task<bool> RemoveAsync(long id);
+    Task<UserResultDto> RetrieveByIdAsync(long id);
+    Task<IEnumerable<UserResultDto>> RetrieveAllAsync(PaginationParams @params, Filter filter, string search = null);
+    Task<IEnumerable<UserResultDto>> RetrieveAllAsync();
+    Task<UserResultDto> UpgradeRoleAsync(long id, UserRole role);
 }
