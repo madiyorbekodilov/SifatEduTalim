@@ -1,13 +1,14 @@
 ﻿using SifatEdu.Domain.Entities;
-using SifatEdu.Service.DTOs.Answer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SifatEdu.Service.DTOs.CodeUchun;
 
 namespace SifatEdu.Service.Interfaces;
 
 public interface ICodeuchunService
 {
+    Task<bool> DeleteAsync(long id);
+    Task<IEnumerable<CodeUchun>> GetAllAsync();
+    Task<CodeUchunResultDto> GetByIdAsync(long id);
+    Task<CodeUchunResultDto> ModifyAsync(CodeUchunUpdateDto CodeUpdate);
+    Task<CodeUchunResultDto> CreateAsync(CodeUchunCreationDto CodeCreation);
+    Task<IEnumerable<CodeUchunResultDto>> GetByQuestionIdAsync(long questionId);
 }
