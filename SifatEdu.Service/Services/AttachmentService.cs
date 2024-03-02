@@ -3,6 +3,8 @@ using SifatEdu.Data.IRepasitories;
 using SifatEdu.Domain.Entities;
 using SifatEdu.Service.DTOs.Attachment;
 using SifatEdu.Service.Exceptions;
+using SifatEdu.Service.Extentions;
+using SifatEdu.Service.Helpers;
 using SifatEdu.Service.Interfaces;
 
 namespace SifatEdu.Service.Services;
@@ -31,8 +33,28 @@ public class AttachmentService : IAttachmentService
         return true;
     }
 
-    public Task<Attachment> UploadAsync(AttachmentCreationDto dto)
+    public async Task<Attachment> UploadAsync(AttachmentCreationDto dto)
     {
-        throw new NotImplementedException();
+        var webrootPath = Path.Combine(PathHelper.WebRootPath, "Files");
+
+        if (!Directory.Exists(webrootPath))
+            Directory.CreateDirectory(webrootPath);
+
+        var fileExtension = Path.GetExtension(dto.FormFile.FileName);
+        var fileName = $"{Guid.NewGuid().ToString("N")}{fileExtension}";
+        var fullPath = Path.Combine(webrootPath, fileName);
+
+        var fileStream = new FileStream(fullPath, FileMode.OpenOrCreate);
+        await fileStream.WriteAsync(dto.FormFile.ToByte());
+
+        var createdAttachment = new Attachment
+        {
+            FileName = fileName,
+            FilePath = fullPath
+        };
+        await this.repasitory.CreateAsync(createdAttachment);
+        await this.repasitory.SaveAsync();
+
+        return createdAttachment;
     }
 }
