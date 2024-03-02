@@ -46,7 +46,7 @@ public class QuestionService : IQuestionService
 
     public async Task<IEnumerable<QuestionResultDto>> GetAllAsync()
     {
-        var questions = this.repasitory.SelectAll(includes: new[] { "Attachment", "Answers" });
+        var questions = this.repasitory.SelectAll(includes: new[] { "Attachment", "Answers", "Codes" });
 
         return  this.mapper.Map<IEnumerable<QuestionResultDto>>(questions);
     }
