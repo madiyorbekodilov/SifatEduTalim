@@ -11,6 +11,4 @@ public interface IQuestionService
     Task<bool> ModifyImageAsync(long id, IFormFile image);
     Task<QuestionResultDto> ModifyAsync(QuestionUpdateDto dto);
     Task<QuestionResultDto> CreateAsync(QuestionCreationDto dto);
-    Task<IEnumerable<QuestionResultDto>> GetByUserIdAsync(long userId);
-    Task<IEnumerable<QuestionResultDto>> SearchAsync(string searchTerm);
 }
