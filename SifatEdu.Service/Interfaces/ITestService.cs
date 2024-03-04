@@ -9,11 +9,6 @@ public interface ITestService
     Task<bool> SearchExamAsync(long id);
     Task<IEnumerable<Test>> GetAllAsync();
     Task<TestResultDto> GetByIdAsync(long id);
-    Task<IEnumerable<TestResultDto>> EndedExams();
-    Task<IEnumerable<TestResultDto>> FutureExams();
-    Task<IEnumerable<TestResultDto>> CurrentExams();
     Task<TestResultDto> ModifyAsync(TestUpdateDto examUpdate);
-    Task<IEnumerable<TestResultDto>> GetByTitleAsync(string title);
     Task<TestResultDto> CreateAsync(TestCreationDto examCreation);
-    Task<IEnumerable<TestResultDto>> GetByNearExamAsync(DateTime dateTime);
 }
