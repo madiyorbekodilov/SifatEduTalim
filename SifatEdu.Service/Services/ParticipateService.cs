@@ -2,6 +2,7 @@
 using SifatEdu.Data.IRepasitories;
 using SifatEdu.Domain.Entities;
 using SifatEdu.Service.DTOs.Participate;
+using SifatEdu.Service.Exceptions;
 using SifatEdu.Service.Interfaces;
 
 namespace SifatEdu.Service.Services;
@@ -9,12 +10,17 @@ namespace SifatEdu.Service.Services;
 public class ParticipateService : IParticipateService
 {
     private readonly IMapper mapper;
+    private readonly IUserService userService;
+    private readonly ITestService testService;
     private readonly IRepasitory<Participate> repasitory;
 
-    public ParticipateService(IRepasitory<Participate> repasitory, IMapper mapper)
+    public ParticipateService(IRepasitory<Participate> repasitory, IMapper mapper,
+                                IUserService userService, ITestService testService)
     {
         this.mapper = mapper;
         this.repasitory = repasitory;
+        this.userService = userService;
+        this.testService = testService;
     }
 
     public Task<ParticipateResultDto> CreateAsync(ParticipateCreationDto creationDto)
@@ -22,9 +28,17 @@ public class ParticipateService : IParticipateService
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteAsync(long id)
+    public async Task<bool> DeleteAsync(long id)
     {
-        throw new NotImplementedException();
+        var user = await this.repasitory.SelectAsync(x => x.Id == id);
+
+        if (user is null)
+            throw new NotFoundException("Participate not found");
+
+        this.repasitory.Delete(user);
+        await this.repasitory.SaveAsync();
+
+        return true;
     }
 
     public Task<IEnumerable<ParticipateResultDto>> GetAllAsync()
@@ -32,19 +46,39 @@ public class ParticipateService : IParticipateService
         throw new NotImplementedException();
     }
 
-    public Task<ParticipateResultDto> GetByIdAsync(long id)
+    public async Task<ParticipateResultDto> GetByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        var exisTester = await this.repasitory.SelectAsync(x => x.Id == id);
+
+        if (exisTester is null)
+            throw new NotFoundException("Test not found");
+
+        return this.mapper.Map<ParticipateResultDto>(exisTester);
     }
 
-    public Task<IEnumerable<ParticipateResultDto>> GetByTestId(long testId)
+    public async Task<IEnumerable<ParticipateResultDto>> GetByTestId(long testId)
     {
-        throw new NotImplementedException();
+        var existest = await this.testService.GetByIdAsync(testId);
+
+        if (existest is null)
+            throw new NotFoundException("Test is invaid");
+
+        var exisUser = this.repasitory.SelectAll(x => x.TesId == testId);
+
+        return this.mapper.Map<IEnumerable<ParticipateResultDto>>(exisUser);
+
     }
 
-    public Task<IEnumerable<ParticipateResultDto>> GetByUserId(long userId)
+    public async Task<IEnumerable<ParticipateResultDto>> GetByUserId(long userId)
     {
-        throw new NotImplementedException();
+        var exisUser = await this.userService.RetrieveByIdAsync(userId);
+
+        if (exisUser is null)
+            throw new NotFoundException("User not found");
+
+        var natijalar = this.repasitory.SelectAll(x => x.UserId == userId);
+
+        return this.mapper.Map<IEnumerable<ParticipateResultDto>>(natijalar);
     }
 
     public Task<float> MyScore(long userId, long examId)
