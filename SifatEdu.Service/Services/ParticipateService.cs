@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SifatEdu.Data.IRepasitories;
 using SifatEdu.Domain.Entities;
 using SifatEdu.Service.DTOs.Participate;
@@ -23,9 +24,13 @@ public class ParticipateService : IParticipateService
         this.testService = testService;
     }
 
-    public Task<ParticipateResultDto> CreateAsync(ParticipateCreationDto creationDto)
+    public async Task<ParticipateResultDto> CreateAsync(ParticipateCreationDto creationDto)
     {
-        throw new NotImplementedException();
+        var mappedUser = this.mapper.Map<Participate>(creationDto);
+        await this.repasitory.CreateAsync(mappedUser);
+        await this.repasitory.SaveAsync();
+
+        return this.mapper.Map<ParticipateResultDto>(mappedUser);
     }
 
     public async Task<bool> DeleteAsync(long id)
@@ -41,9 +46,10 @@ public class ParticipateService : IParticipateService
         return true;
     }
 
-    public Task<IEnumerable<ParticipateResultDto>> GetAllAsync()
+    public async Task<IEnumerable<ParticipateResultDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var participates = await this.repasitory.SelectAll().ToListAsync();
+        return this.mapper.Map<IEnumerable<ParticipateResultDto>>(participates);
     }
 
     public async Task<ParticipateResultDto> GetByIdAsync(long id)
@@ -81,13 +87,17 @@ public class ParticipateService : IParticipateService
         return this.mapper.Map<IEnumerable<ParticipateResultDto>>(natijalar);
     }
 
-    public Task<float> MyScore(long userId, long examId)
-    {
-        throw new NotImplementedException();
-    }
 
-    public Task<ParticipateResultDto> UpdateAsync(ParticipateUpdateDto updateDto)
+    public async Task<ParticipateResultDto> UpdateAsync(ParticipateUpdateDto updateDto)
     {
-        throw new NotImplementedException();
+        var exisUser = await this.repasitory.SelectAsync(x => x.Id == updateDto.Id);
+        if (exisUser is null)
+            throw new NotFoundException("Participate not found");
+
+        this.mapper.Map(updateDto, exisUser);
+        this.repasitory.Update(exisUser);
+        await this.repasitory.SaveAsync();
+
+        return this.mapper.Map<ParticipateResultDto>(exisUser); 
     }
 }

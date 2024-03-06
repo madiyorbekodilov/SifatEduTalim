@@ -9,7 +9,6 @@ public interface IParticipateService
     Task<ParticipateResultDto> GetByIdAsync(long id);
     Task<IEnumerable<ParticipateResultDto>> GetByTestId(long testId);
     Task<IEnumerable<ParticipateResultDto>> GetByUserId(long userId);
-    Task<float> MyScore(long userId, long examId);
     Task<ParticipateResultDto> UpdateAsync(ParticipateUpdateDto updateDto);
     Task<ParticipateResultDto> CreateAsync(ParticipateCreationDto creationDto);
 }
