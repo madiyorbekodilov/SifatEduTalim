@@ -51,7 +51,7 @@ public class UsersController : BaseController
         return BadRequest("Invalid Information");
     }
 
-    [HttpDelete("get/{id/long}")]
+    [HttpDelete("get/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
         => Ok(new Response
         {
@@ -60,4 +60,21 @@ public class UsersController : BaseController
             Data = await this.userService.RemoveAsync(id)
         });
 
+    [HttpGet("get/{id:long}")]
+    public async Task<IActionResult> GetByIdAsync(long id)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.userService.RetrieveByIdAsync(id)
+        });
+
+    [HttpGet("get-all")]
+    public async Task<IActionResult> GetAllAsync()
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.userService.RetrieveAllAsync()
+        });
 }
