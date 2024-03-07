@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using SifatEdu.Api.Models;
-using SifatEdu.Service.DTOs.Answer;
+﻿using SifatEdu.Api.Models;
+using Microsoft.AspNetCore.Mvc;
 using SifatEdu.Service.Helpers;
 using SifatEdu.Service.Interfaces;
+using SifatEdu.Service.DTOs.Answer;
 
 namespace SifatEdu.Api.Controllers;
 
@@ -20,7 +19,7 @@ public class AnswerController : BaseController
     public async Task<IActionResult> PostAsync(AnswerCreationDto dto)
     {
         var validation = Validator.IsValidText(dto.Javob);
-        if(validation)
+        if (validation)
             return Ok(new Response
             {
                 StatusCode = 200,
