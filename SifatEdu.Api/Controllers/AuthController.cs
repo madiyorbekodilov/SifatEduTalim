@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using SifatEdu.Api.Models;
+﻿using SifatEdu.Api.Models;
 using SifatEdu.Service.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using SifatEdu.Service.Interfaces;
-using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SifatEdu.Api.Controllers;
 
@@ -22,7 +21,7 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> AuthenticateAsync(string emailOrUsername, string password)
     {
-        if(Validator.IsValidEmail(emailOrUsername)) 
+        if (Validator.IsValidEmail(emailOrUsername))
         {
             return Ok(new Response
             {
@@ -31,7 +30,7 @@ public class AuthController : ControllerBase
                 Data = await this.authService.GenerateTokenAsync(emailOrUsername, password)
             });
         }
-        else if(Validator.IsValidPassword(password))
+        else if (Validator.IsValidPassword(password))
         {
             return Ok(new Response
             {
@@ -40,7 +39,7 @@ public class AuthController : ControllerBase
                 Data = await this.authService.GenerateTokenAsync(emailOrUsername, password)
             });
         }
-            
+
         return BadRequest("Username or password is incorrect");
     }
 }
