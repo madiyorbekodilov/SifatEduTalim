@@ -9,6 +9,4 @@ public class TestResultDto
     public string Description { get; set; }
     public int CountQuestion { get; set; }
     public int QuizNumber { get; set; }
-
-    public QuestionResultDto Question { get; set; }
 }
