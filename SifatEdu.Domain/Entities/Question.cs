@@ -10,6 +10,9 @@ public class Question : Auditable
     public long? AttachmentId { get; set; }
     public Attachment Attachment { get; set; }
 
+    public long TestId { get; set; }
+    public Test test { get; set; }
+
     public ICollection<Answer> Answers { get; set; }
 
     public ICollection<CodeUchun> Codes { get; set; }

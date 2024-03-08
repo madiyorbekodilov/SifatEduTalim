@@ -8,7 +8,5 @@ public class Test : Auditable
     public string Description { get; set; }
     public int CountQuestion { get; set; }
     public int QuizNumber { get; set; }
-
-    public long QuestionId { get; set; }
-    public Question Question { get; set; }
+    public ICollection<Question> Questions { get; set;}
 }
