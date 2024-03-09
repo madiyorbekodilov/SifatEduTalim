@@ -49,7 +49,7 @@ public class AnswerService : IAnswerService
 
     public async Task<IEnumerable<Answer>> GetAllAsync()
     {
-        return this.repasitory.SelectAll(null,true,new string[] { "Question" });
+        return this.repasitory.SelectAll();
     }
 
     public async Task<AnswerResultDto> GetByIdAsync(long id)
@@ -70,8 +70,9 @@ public class AnswerService : IAnswerService
             throw new NotFoundException("Question not found");
 
         var answers = this.repasitory.SelectAll(a => a.QuestionId == questionId);
+        var natija = answers.Where(x => x.IsDeleted == false);
 
-        return this.mapper.Map<IEnumerable<AnswerResultDto>>(answers);
+        return this.mapper.Map<IEnumerable<AnswerResultDto>>(natija);
     }
 
     public async Task<AnswerResultDto> ModifyAsync(AnswerUpdateDto answerUpdate)

@@ -44,14 +44,15 @@ public class TestService : ITestService
         return true;
     }
 
-    public async Task<IEnumerable<Test>> GetAllAsync()
+    public async Task<IEnumerable<TestResultDto>> GetAllAsync()
     {
-        return this.repasitory.SelectAll();
+        var tests = this.repasitory.SelectAll(includes: new string[] { "Questions" });
+        return this.mapper.Map<IEnumerable<TestResultDto>>(tests);
     }
 
     public async Task<TestResultDto> GetByIdAsync(long id)
     {
-        var exisTest = await this.repasitory.SelectAsync(x => x.Id == id);
+        var exisTest = await this.repasitory.SelectAsync(x => x.Id == id, new string[] { "Questions"});
 
         if (exisTest is null)
             throw new NotFoundException("Test not found");

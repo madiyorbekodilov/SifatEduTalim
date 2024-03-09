@@ -46,14 +46,14 @@ public class QuestionService : IQuestionService
 
     public async Task<IEnumerable<QuestionResultDto>> GetAllAsync()
     {
-        var questions = this.repasitory.SelectAll(includes: new[] { "Attachment", "Answers", "Codes" });
+        var questions = this.repasitory.SelectAll(includes: new string[] { "Answers", "Attachment", "Codes" });
 
         return  this.mapper.Map<IEnumerable<QuestionResultDto>>(questions);
     }
 
     public async Task<QuestionResultDto> GetByIdAsync(long id)
     {
-        var question = await repasitory.SelectAsync(x => x.Id == id);
+        var question = await repasitory.SelectAsync(x => x.Id == id,includes: new string[] { "Answers" });
 
         if (question is null)
             throw new NotFoundException("Question not found");

@@ -7,7 +7,7 @@ public interface ITestService
 {
     Task<bool> DeleteAsync(long id);
     Task<bool> SearchExamAsync(long id);
-    Task<IEnumerable<Test>> GetAllAsync();
+    Task<IEnumerable<TestResultDto>> GetAllAsync();
     Task<TestResultDto> GetByIdAsync(long id);
     Task<TestResultDto> ModifyAsync(TestUpdateDto examUpdate);
     Task<TestResultDto> CreateAsync(TestCreationDto examCreation);

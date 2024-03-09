@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using SifatEdu.Api.Extentions;
 using SifatEdu.Api.Middlewares;
 using SifatEdu.Data.Contexts;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
