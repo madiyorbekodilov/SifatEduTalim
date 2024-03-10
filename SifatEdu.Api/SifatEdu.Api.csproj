@@ -28,4 +28,8 @@
     <ProjectReference Include="..\SifatEdu.Service\SifatEdu.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\" />
+  </ItemGroup>
+
 </Project>

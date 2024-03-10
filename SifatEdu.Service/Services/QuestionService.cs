@@ -53,10 +53,27 @@ public class QuestionService : IQuestionService
 
     public async Task<QuestionResultDto> GetByIdAsync(long id)
     {
-        var question = await repasitory.SelectAsync(x => x.Id == id,includes: new string[] { "Answers" });
+        var question = await repasitory.SelectAsync(x => x.Id == id,includes: new string[] { "Answers" , "Codes" });
 
         if (question is null)
             throw new NotFoundException("Question not found");
+
+        return this.mapper.Map<QuestionResultDto>(question);
+    }
+
+    public async Task<QuestionResultDto> ImageUploadAsync(long productId, AttachmentCreationDto dto)
+    {
+        var question = await this.repasitory.SelectAsync(x => x.Id == productId);
+
+        if (question is null)
+            throw new NotFoundException("Question not found");
+
+        var createdAttachment = await this.attachment.UploadAsync(dto);
+        question.AttachmentId = createdAttachment.Id;
+        question.Attachment = createdAttachment;
+
+        this.repasitory.Update(question);
+        await this.repasitory.SaveAsync();
 
         return this.mapper.Map<QuestionResultDto>(question);
     }

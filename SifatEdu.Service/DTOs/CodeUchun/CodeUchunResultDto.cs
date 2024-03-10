@@ -6,6 +6,4 @@ public class CodeUchunResultDto
 {
     public string Kiruvchi { get; set; }
     public string Chiquchi { get; set; }
-
-    public QuestionResultDto Question { get; set; }
 }

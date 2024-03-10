@@ -54,7 +54,8 @@ public class AnswerService : IAnswerService
 
     public async Task<AnswerResultDto> GetByIdAsync(long id)
     {
-        var answer = await this.repasitory.SelectAsync(x => x.Id == id,new string[] {"Question"});
+        var answer = await this.repasitory.SelectAsync(x => x.Id == id && x.IsDeleted == false,
+                                                                        new string[] {"Question"});
 
         if (answer is null)
             throw new NotFoundException("Answer not found");

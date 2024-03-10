@@ -3,6 +3,7 @@ using SifatEdu.Service.DTOs.Question;
 using SifatEdu.Service.Helpers;
 using SifatEdu.Api.Models;
 using SifatEdu.Service.Interfaces;
+using SifatEdu.Service.DTOs.Attachment;
 
 namespace SifatEdu.Api.Controllers;
 
@@ -72,6 +73,15 @@ public class QuestionController : BaseController
             StatusCode = 200,
             Message = "Success",
             Data = await this.service.GetAllAsync()
+        });
+
+    [HttpPost("upload-image")]
+    public async Task<IActionResult> PostImageAsync(long id, [FromForm] AttachmentCreationDto dto)
+        => Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await this.service.ImageUploadAsync(id, dto)
         });
 
     [HttpPut("update-image")]

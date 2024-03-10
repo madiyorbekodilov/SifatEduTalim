@@ -2,6 +2,7 @@
 using SifatEdu.Domain.Entities;
 using SifatEdu.Service.DTOs.Answer;
 using SifatEdu.Service.DTOs.Attachment;
+using SifatEdu.Service.DTOs.CodeUchun;
 using SifatEdu.Service.DTOs.Participate;
 using SifatEdu.Service.DTOs.Question;
 using SifatEdu.Service.DTOs.Test;
@@ -41,5 +42,10 @@ public class MappingProfile : Profile
         CreateMap<Test, TestResultDto>().ReverseMap();
         CreateMap<TestUpdateDto, Test>().ReverseMap();
         CreateMap<TestCreationDto, Test>().ReverseMap();
+
+        //Code
+        CreateMap<CodeUchun, CodeUchunResultDto>().ReverseMap();
+        CreateMap<CodeUchunUpdateDto, CodeUchun>().ReverseMap();
+        CreateMap<CodeUchunCreationDto, CodeUchun>().ReverseMap();
     }
 }
