@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SifatEdu.Data.IRepasitories;
+using SifatEdu.Data.Repasitories;
 using SifatEdu.Domain.Entities;
 using SifatEdu.Service.DTOs.Attachment;
 using SifatEdu.Service.Exceptions;
@@ -56,5 +57,6 @@ public class AttachmentService : IAttachmentService
         await this.repasitory.SaveAsync();
 
         return createdAttachment;
+
     }
 }

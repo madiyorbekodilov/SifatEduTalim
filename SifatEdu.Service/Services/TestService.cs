@@ -11,12 +11,14 @@ public class TestService : ITestService
 {
 
     private readonly IMapper mapper;
+    private readonly IQuestionService questionService;
     private readonly IRepasitory<Test> repasitory;
 
-    public TestService(IRepasitory<Test> repasitory, IMapper mapper)
+    public TestService(IRepasitory<Test> repasitory,IQuestionService questionService, IMapper mapper)
     {
         this.mapper = mapper;
         this.repasitory = repasitory;
+        this.questionService = questionService;
     }
 
     public async Task<TestResultDto> CreateAsync(TestCreationDto examCreation)
@@ -54,6 +56,9 @@ public class TestService : ITestService
     {
         var exisTest = await this.repasitory.SelectAsync(x => x.Id == id, new string[] { "Questions"});
 
+        var questions = await this.questionService.GetByTestIdAsync(id);
+        
+        exisTest.Questions = questions;
         if (exisTest is null)
             throw new NotFoundException("Test not found");
 

@@ -4,6 +4,7 @@ using SifatEdu.Api.Middlewares;
 using SifatEdu.Data.Contexts;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using SifatEdu.Service.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+PathHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
 // Database
 

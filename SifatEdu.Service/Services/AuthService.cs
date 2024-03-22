@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using SifatEdu.Data.IRepasitories;
-using SifatEdu.Domain.Entities;
-using SifatEdu.Service.Exceptions;
-using SifatEdu.Service.Helpers;
-using SifatEdu.Service.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.Text;
 using System.Security.Claims;
-using System.Text;
+using SifatEdu.Domain.Entities;
+using SifatEdu.Service.Helpers;
+using SifatEdu.Data.IRepasitories;
+using SifatEdu.Service.Exceptions;
+using SifatEdu.Service.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 
 namespace SifatEdu.Service.Services;
 
@@ -23,11 +23,11 @@ public class AuthService : IAuthService
 
     public async Task<string> GenerateTokenAsync(string phone, string originalPassword)
     {
-        var user = await this.userRepository.SelectAsync(u => u.Phone.Equals(phone));
+        var user = await this.userRepository.SelectAsync(u => u.Email.Equals(phone));
         if (user is null)
             throw new NotFoundException("This user is not found");
 
-        bool verifiedPassword = PasswordHasher.Verify(user.Password, originalPassword);
+        bool verifiedPassword = PasswordHasher.Verify(originalPassword,user.Password);
         if (!verifiedPassword)
             throw new CustomException(400, "Phone or password is invalid");
 
@@ -37,7 +37,7 @@ public class AuthService : IAuthService
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                 new Claim("Phone", user.Phone),
+                 new Claim("Email", user.Email),
                  new Claim("Id", user.Id.ToString()),
                  new Claim(ClaimTypes.Role, user.Role.ToString())
             }),

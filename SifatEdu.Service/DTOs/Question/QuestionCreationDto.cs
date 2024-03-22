@@ -6,5 +6,4 @@ public class QuestionCreationDto
     public bool isCode { get; set; }
 
     public long TestId { get; set;}
-    public long? AttachmentId { get; set; }
 }

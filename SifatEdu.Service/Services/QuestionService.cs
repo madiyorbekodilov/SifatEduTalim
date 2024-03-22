@@ -53,7 +53,8 @@ public class QuestionService : IQuestionService
 
     public async Task<QuestionResultDto> GetByIdAsync(long id)
     {
-        var question = await repasitory.SelectAsync(x => x.Id == id,includes: new string[] { "Answers" , "Codes" });
+        var question = await repasitory.SelectAsync(x => x.Id == id,
+                                                includes: new string[] { "Answers" , "Codes", "Attachment" });
 
         if (question is null)
             throw new NotFoundException("Question not found");
@@ -61,6 +62,13 @@ public class QuestionService : IQuestionService
         return this.mapper.Map<QuestionResultDto>(question);
     }
 
+    public async Task<ICollection<Question>> GetByTestIdAsync(long id)
+    {
+        var questions = this.repasitory.SelectAll(includes: new string[] { "Answers", "Attachment", "Codes" });
+        var natija = questions.Where(x => x.TestId == id);
+
+        return this.mapper.Map<ICollection<Question>>(natija);
+    }
     public async Task<QuestionResultDto> ImageUploadAsync(long productId, AttachmentCreationDto dto)
     {
         var question = await this.repasitory.SelectAsync(x => x.Id == productId);
