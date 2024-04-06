@@ -51,7 +51,7 @@ public class UsersController : BaseController
         return BadRequest("Invalid Information");
     }
 
-    [HttpDelete("get/{id:long}")]
+    [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
         => Ok(new Response
         {
