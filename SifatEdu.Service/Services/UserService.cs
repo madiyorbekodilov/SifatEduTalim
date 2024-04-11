@@ -40,11 +40,10 @@ public class UserService : IUserService
 
     public async Task<UserResultDto> ModifyAsync(UserUpdateDto dto)
     {
-        User existUser = await this.userRepository.SelectAsync(u => u.Id.Equals(dto.Id))
-            ?? throw new NotFoundException($"This user is not found with ID = {dto.Id}");
+        User existUser = await this.userRepository.SelectAsync(u => u.Email.Equals(dto.Email))
+            ?? throw new NotFoundException($"This user is not found with ID = {dto.Email}");
 
         this.mapper.Map(dto, existUser);
-        existUser.Password = PasswordHasher.Hash(dto.Password);
         this.userRepository.Update(existUser);
         await this.userRepository.SaveAsync();
 

@@ -36,7 +36,7 @@ public class UsersController : BaseController
     [HttpPut("update")]
     public async Task<IActionResult> PutAsync(UserUpdateDto dto)
     {
-        var emailValid = Validator.IsValidEmail(dto.Phone);
+        var emailValid = Validator.IsValidEmail(dto.Email);
         var nameValid = Validator.IsValidName(dto.FirsName);
         var surnameValid = Validator.IsValidName(dto.LastName);
         
