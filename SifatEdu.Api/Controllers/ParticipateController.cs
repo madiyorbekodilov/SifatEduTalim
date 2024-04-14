@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SifatEdu.Api.Models;
-using SifatEdu.Service.DTOs.Participate;
+﻿using SifatEdu.Api.Models;
+using Microsoft.AspNetCore.Mvc;
 using SifatEdu.Service.Interfaces;
+using SifatEdu.Service.DTOs.Participate;
 
 namespace SifatEdu.Api.Controllers;
 
